@@ -10,25 +10,26 @@ export class Hero {
     selector: 'my-app',
     template:`
         <h1>{{title}}</h1>
-        <div *ngIf="selectedHero">
-            <h2>Ficha de personaje de {{hero.name}}</h2>
-            <div><label>ID: </label>{{hero.id}}</div>
-            <div>
-                <label>Name: </label>
-                <input [(ngModel)]="selectedHero.name" placeholder="Escribe el nombre.."/>
-            </div>
-            <div>
-                <label>Race: </label>
-                <input [(ngModel)]="selectedHero.race" placeholder="Escribe la raza.."/>
-            </div>
-        </div>
         <h2>Mis personajes</h2>
         <ul class="heroes">
-            <li *ngFor="let hero of heroes" (click)="onSelect(hero)">
-                <!-- each hero goes here -->
+            <li *ngFor="let hero of heroes" 
+                [class.selected]="hero === selectedHero" 
+                (click)="onSelect(hero)">
                 <span class="badge">{{hero.id}}</span> {{hero.name}}
             </li>
         </ul>
+        <div *ngIf="selectedHero">
+            <h2>Ficha de personaje de {{selectedHero.name}}</h2>
+            <div><label>ID: </label>{{selectedHero.id}}</div>
+            <div>
+                <label>Nombre: </label>
+                <input [(ngModel)]="selectedHero.name" placeholder="Escribe el nombre.."/>
+            </div>
+            <div>
+                <label>Raza: </label>
+                <input [(ngModel)]="selectedHero.race" placeholder="Escribe la raza.."/>
+            </div>
+        </div>
         `,
     styles:[`
   .selected {
@@ -86,8 +87,8 @@ export class Hero {
 export class AppComponent {
     title = 'Personajes';
     selectedHero: Hero;
+    heroes = HEROES;
     onSelect(hero: Hero) { this.selectedHero = hero; }
-    public heroes = HEROES;
 }
 
 var HEROES: Hero[] = [
