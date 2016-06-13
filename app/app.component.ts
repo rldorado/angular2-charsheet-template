@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 
-export class Hero {
-    id: number;
-    name: string;
-    race: string;
-}
+import { Character } from './character';
+import { CharacterDetailComponent } from './character-detail.component';
 
 @Component({
     selector: 'my-app',
@@ -12,24 +9,13 @@ export class Hero {
         <h1>{{title}}</h1>
         <h2>Mis personajes</h2>
         <ul class="heroes">
-            <li *ngFor="let hero of heroes" 
-                [class.selected]="hero === selectedHero" 
-                (click)="onSelect(hero)">
-                <span class="badge">{{hero.id}}</span> {{hero.name}}
+            <li *ngFor="let character of characters" 
+                [class.selected]="character === selectedChar" 
+                (click)="onSelect(character)">
+                <span class="badge">{{character.id}}</span> {{character.name}}
             </li>
         </ul>
-        <div *ngIf="selectedHero">
-            <h2>Ficha de personaje de {{selectedHero.name}}</h2>
-            <div><label>ID: </label>{{selectedHero.id}}</div>
-            <div>
-                <label>Nombre: </label>
-                <input [(ngModel)]="selectedHero.name" placeholder="Escribe el nombre.."/>
-            </div>
-            <div>
-                <label>Raza: </label>
-                <input [(ngModel)]="selectedHero.race" placeholder="Escribe la raza.."/>
-            </div>
-        </div>
+        <my-character-detail [character]="selectedChar"></my-character-detail>
         `,
     styles:[`
   .selected {
@@ -79,19 +65,20 @@ export class Hero {
     margin-right: .8em;
     border-radius: 4px 0 0 4px;
   }
-  `]
-
+  `],
+    directives: [CharacterDetailComponent]
 
 })
 
 export class AppComponent {
     title = 'Personajes';
-    selectedHero: Hero;
-    heroes = HEROES;
-    onSelect(hero: Hero) { this.selectedHero = hero; }
+    selectedChar: Character;
+    characters = HEROES;
+
+    onSelect(character: Character) { this.selectedChar = character; }
 }
 
-var HEROES: Hero[] = [
+var HEROES: Character[] = [
     { "id": 11, "name": "Glenn es-Vulcano", "race": "Minotauro" },
     { "id": 12, "name": "Veranya", "race": "Humano" },
     { "id": 13, "name": "Anciek", "race": "Semielfo" },
