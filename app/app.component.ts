@@ -3,6 +3,10 @@ import { Component } from '@angular/core';
 import { Character } from './character';
 import { CharacterDetailComponent } from './character-detail.component';
 
+import { CharacterService } from './character.service';
+
+import { OnInit } from '@angular/core';
+
 @Component({
     selector: 'my-app',
     template:`
@@ -66,27 +70,28 @@ import { CharacterDetailComponent } from './character-detail.component';
     border-radius: 4px 0 0 4px;
   }
   `],
-    directives: [CharacterDetailComponent]
+    directives: [CharacterDetailComponent],
+    providers: [CharacterService]
 
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
     title = 'Personajes';
     selectedChar: Character;
-    characters = HEROES;
+    characters: Character[];
+
+
+    constructor(private characterService: CharacterService) { }
+
+    getCharacters() {
+        this.characterService.getCharacters().then(characters => this.characters = characters); //Promesa
+    }
+
+    ngOnInit() {
+        this.getCharacters();
+    }
 
     onSelect(character: Character) { this.selectedChar = character; }
 }
 
-var HEROES: Character[] = [
-    { "id": 11, "name": "Glenn es-Vulcano", "race": "Minotauro" },
-    { "id": 12, "name": "Veranya", "race": "Humano" },
-    { "id": 13, "name": "Anciek", "race": "Semielfo" },
-    { "id": 14, "name": "Shirlyn", "race": "Kender" },
-    { "id": 15, "name": "Lionel Melodía", "race": "Humano" },
-    { "id": 16, "name": "Zilkoz", "race": "Goblin" },
-    { "id": 17, "name": "Daenisse", "race": "Elfo qualinesti" },
-    { "id": 18, "name": "Darion Zadig", "race": "Humano" },
-    { "id": 19, "name": "Yibraël Laznamür", "race": "Semielfo" },
-    { "id": 20, "name": "Rydhez Harramist", "race": "Humano" }
-];
+
