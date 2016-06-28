@@ -10,9 +10,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var character_1 = require('./character');
+var router_deprecated_1 = require('@angular/router-deprecated');
+var character_service_1 = require('./character.service');
 var CharacterDetailComponent = (function () {
-    function CharacterDetailComponent() {
+    function CharacterDetailComponent(characterService, routeParams) {
+        this.characterService = characterService;
+        this.routeParams = routeParams;
     }
+    CharacterDetailComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        var id = +this.routeParams.get('id');
+        this.characterService.getCharacter(id)
+            .then(function (character) { return _this.character = character; });
+    };
+    CharacterDetailComponent.prototype.goBack = function () {
+        window.history.back();
+    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', character_1.Character)
@@ -20,9 +33,10 @@ var CharacterDetailComponent = (function () {
     CharacterDetailComponent = __decorate([
         core_1.Component({
             selector: 'my-character-detail',
-            template: "\n    <div *ngIf=\"character\">\n            <h2>Ficha de personaje de {{character.name}}</h2>\n                <div><label>ID: </label>{{character.id}}</div>\n            <div>\n                <label>Nombre: </label>\n                <input [(ngModel)]=\"character.name\" placeholder=\"Escribe el nombre..\"/>\n            </div>\n        <div>\n            <label>Raza: </label>\n            <input [(ngModel)]=\"character.race\" placeholder=\"Escribe la raza..\"/>\n        </div>\n    </div>\n    "
+            templateUrl: 'app/character-detail.component.html',
+            styleUrls: ['app/character-detail.component.css']
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [character_service_1.CharacterService, router_deprecated_1.RouteParams])
     ], CharacterDetailComponent);
     return CharacterDetailComponent;
 }());

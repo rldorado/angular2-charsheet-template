@@ -1,25 +1,30 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { Character } from './character';
 
+import { RouteParams } from '@angular/router-deprecated';
+import { CharacterService } from './character.service';
+
 @Component({
     selector: 'my-character-detail',
-    template: `
-    <div *ngIf="character">
-            <h2>Ficha de personaje de {{character.name}}</h2>
-                <div><label>ID: </label>{{character.id}}</div>
-            <div>
-                <label>Nombre: </label>
-                <input [(ngModel)]="character.name" placeholder="Escribe el nombre.."/>
-            </div>
-        <div>
-            <label>Raza: </label>
-            <input [(ngModel)]="character.race" placeholder="Escribe la raza.."/>
-        </div>
-    </div>
-    `
+    templateUrl: 'app/character-detail.component.html',
+    styleUrls: ['app/character-detail.component.css']
 })
-export class CharacterDetailComponent {
+export class CharacterDetailComponent implements OnInit {
     @Input()
     character: Character;
+
+    constructor(
+        private characterService: CharacterService,
+        private routeParams: RouteParams) {
+    }
+    ngOnInit() {
+        let id = +this.routeParams.get('id');
+        this.characterService.getCharacter(id)
+            .then(character => this.character = character);
+    }
+    goBack() {
+        window.history.back();
+    }
+
 }

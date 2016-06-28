@@ -1,0 +1,13 @@
+<h1>{{title}}</h1>
+<h2>Mis personajes</h2>
+<ul class="heroes">
+    <li *ngFor="let character of characters"
+        [class.selected]="character === selectedChar"
+        (click)="onSelect(character)">
+        <span class="badge">{{character.id}}</span> {{character.name}}
+    </li>
+</ul>
+<div *ngIf="selectedChar">
+    <h2>{{selectedChar.name | uppercase}} is my character</h2>
+    <button (click)="gotoDetail()">View Details</button>
+</div>

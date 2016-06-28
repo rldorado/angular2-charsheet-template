@@ -16,6 +16,10 @@ var CharacterService = (function () {
     CharacterService.prototype.getCharacters = function () {
         return Promise.resolve(mock_characters_1.CHARACTERS);
     };
+    CharacterService.prototype.getCharacter = function (id) {
+        return this.getCharacters()
+            .then(function (characters) { return characters.filter(function (character) { return character.id === id; })[0]; });
+    };
     CharacterService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [])

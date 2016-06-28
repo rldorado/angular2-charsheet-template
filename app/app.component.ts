@@ -21,7 +21,8 @@ import { CharacterDetailComponent } from './character-detail.component';
     providers: [
         ROUTER_PROVIDERS,
         CharacterService
-    ]
+    ],
+    styleUrls: ['app/app.component.css']
 })
 @RouteConfig([
     {

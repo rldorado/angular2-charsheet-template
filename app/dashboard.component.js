@@ -9,9 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_deprecated_1 = require('@angular/router-deprecated');
 var character_service_1 = require('./character.service');
 var DashboardComponent = (function () {
-    function DashboardComponent(characterService) {
+    function DashboardComponent(router, characterService) {
+        this.router = router;
         this.characterService = characterService;
         this.characters = [];
     }
@@ -20,14 +22,17 @@ var DashboardComponent = (function () {
         this.characterService.getCharacters()
             .then(function (characters) { return _this.characters = characters.slice(1, 5); });
     };
-    DashboardComponent.prototype.gotoDetail = function () { };
+    DashboardComponent.prototype.gotoDetail = function (char) {
+        var link = ['CharacterDetail', { id: char.id }];
+        this.router.navigate(link);
+    };
     DashboardComponent = __decorate([
         core_1.Component({
             selector: 'my-dashboard',
-            template: '<h3>My Dashboard</h3>',
-            templateUrl: 'app/dashboard.component.html'
+            templateUrl: 'app/dashboard.component.html',
+            styleUrls: ['app/dashboard.component.css']
         }), 
-        __metadata('design:paramtypes', [character_service_1.CharacterService])
+        __metadata('design:paramtypes', [router_deprecated_1.Router, character_service_1.CharacterService])
     ], DashboardComponent);
     return DashboardComponent;
 }());

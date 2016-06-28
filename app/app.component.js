@@ -26,7 +26,8 @@ var AppComponent = (function () {
             providers: [
                 router_deprecated_1.ROUTER_PROVIDERS,
                 character_service_1.CharacterService
-            ]
+            ],
+            styleUrls: ['app/app.component.css']
         }),
         router_deprecated_1.RouteConfig([
             {
